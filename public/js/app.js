@@ -14367,12 +14367,12 @@ var navigation = [{
   current: false
 }, {
   name: 'Users',
-  href: 'users',
+  href: 'users.index',
   icon: _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_1__.UsersIcon,
   current: false
 }, {
   name: 'TimeLog',
-  href: 'timelogs',
+  href: 'timelogs.index',
   icon: _heroicons_react_outline__WEBPACK_IMPORTED_MODULE_1__.CalendarIcon,
   current: false
 }];
@@ -14627,7 +14627,7 @@ var Sidebar = function Sidebar(_ref) {
   }, navigation.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.InertiaLink, {
       key: item.name,
-      href: item.href,
+      href: route(item.href),
       className: classNames(item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md')
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(item.icon, {
       className: classNames(item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6'),
@@ -14907,7 +14907,7 @@ var index = function index(props) {
     className: "flex-shrink-0 text-right p-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Components_Button__WEBPACK_IMPORTED_MODULE_2__.default, {
     buttonText: "Add Timelog",
-    path: "timelogs/create"
+    path: route('timelogs.create')
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
@@ -14973,10 +14973,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Layout_Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layout/Layout */ "./resources/js/Layout/Layout.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
 
 
+ // import {classNames} from "@headlessui/react/dist/utils/class-names";
+
+function classNames() {
+  for (var _len = arguments.length, classes = new Array(_len), _key = 0; _key < _len; _key++) {
+    classes[_key] = arguments[_key];
+  }
+
+  return classes.filter(Boolean).join(' ');
+}
 
 var addUser = function addUser() {
+  var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.useForm)({
+    first_name: '',
+    last_name: '',
+    email_address: '',
+    password: ''
+  }),
+      data = _useForm.data,
+      setData = _useForm.setData,
+      errors = _useForm.errors,
+      post = _useForm.post,
+      processing = _useForm.processing;
+
+  var onSubmitHandle = function onSubmitHandle(e) {
+    e.preventDefault();
+    post(route('users.store'));
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "mt-10 sm:mt-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -14984,8 +15011,7 @@ var addUser = function addUser() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "mt-5 md:mt-0 md:col-span-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
-    action: "#",
-    method: "POST"
+    onSubmit: onSubmitHandle
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "shadow overflow-hidden sm:rounded-md"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -14999,10 +15025,15 @@ var addUser = function addUser() {
     className: "block text-sm font-medium text-gray-700"
   }, "First name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     type: "text",
-    name: "first-name",
-    id: "first-name",
+    name: "first_name",
+    id: "first_name",
+    value: data.first_name,
+    onChange: function onChange(e) {
+      return setData('first_name', e.target.value);
+    } // errors={errors.first_name}
+    ,
     autoComplete: "given-name",
-    className: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+    className: classNames(errors.first_name ? 'border-red-600' : '', 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md')
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-span-12"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
@@ -15010,10 +15041,14 @@ var addUser = function addUser() {
     className: "block text-sm font-medium text-gray-700"
   }, "Last name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     type: "text",
-    name: "last-name",
-    id: "last-name",
+    name: "last_name",
+    id: "last_name",
+    value: data.last_name,
+    onChange: function onChange(e) {
+      return setData('last_name', e.target.value);
+    },
     autoComplete: "family-name",
-    className: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+    className: classNames(errors.last_name ? 'border-red-600' : '', 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md')
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-span-12"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
@@ -15021,10 +15056,14 @@ var addUser = function addUser() {
     className: "block text-sm font-medium text-gray-700"
   }, "Email address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     type: "text",
-    name: "email-address",
-    id: "email-address",
+    name: "email_address",
+    id: "email_address",
+    value: data.email_address,
+    onChange: function onChange(e) {
+      return setData('email_address', e.target.value);
+    },
     autoComplete: "email",
-    className: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+    className: classNames(errors.email_address ? 'border-red-600' : '', 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md')
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-span-12"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
@@ -15034,7 +15073,11 @@ var addUser = function addUser() {
     type: "password",
     name: "password",
     id: "password",
-    className: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+    value: data.password,
+    onChange: function onChange(e) {
+      return setData('password', e.target.value);
+    },
+    className: classNames(errors.password ? 'border-red-600' : '', 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md')
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "px-4 py-3 bg-gray-50 text-right sm:px-6"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -15096,7 +15139,7 @@ var index = function index(props) {
     className: "flex-shrink-0 text-right p-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Components_Button__WEBPACK_IMPORTED_MODULE_3__.default, {
     buttonText: "Add User",
-    path: "users/create"
+    path: route('users.create')
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {

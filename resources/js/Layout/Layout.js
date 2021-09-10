@@ -12,8 +12,8 @@ import Nav from "./Nav";
 
 const navigation = [
     { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: false },
-    { name: 'Users', href: 'users', icon: UsersIcon, current: false },
-    { name: 'TimeLog', href: 'timelogs', icon: CalendarIcon, current: false },
+    { name: 'Users', href: 'users.index', icon: UsersIcon, current: false },
+    { name: 'TimeLog', href: 'timelogs.index', icon: CalendarIcon, current: false },
 ]
 
 const userNavigation = [

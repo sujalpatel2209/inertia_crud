@@ -33,7 +33,7 @@ Route::get('dashboard', function () {
     return inertia('Dashboard/index', [
         'stats' => $data
     ]);
-});
+})->name('dashboard');
 
 Route::resource('users', \App\Http\Controllers\UserController::class);
 Route::resource('timelogs', \App\Http\Controllers\UserLogtimeController::class);
